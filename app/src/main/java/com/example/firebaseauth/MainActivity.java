@@ -39,11 +39,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         regEmial=findViewById(R.id.Rinput_email);
         regpass=findViewById(R.id.Rinput_password);
         signedup=findViewById(R.id.Rlogin_page);
-
-        //
         buttonreg.setOnClickListener(this);
         signedup.setOnClickListener(this);
-    }// register user
+    }
+
+
+    // registering  user
     public void registerUser(){
         String email=regEmial.getText().toString().trim();
         String password=regpass.getText().toString().trim();
@@ -80,9 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
          if (v==buttonreg){
              registerUser();
-
          }
-
          if(v==signedup){
              //open login activity
              startActivity(new Intent(this,Login_activity.class));

@@ -35,6 +35,7 @@ Spinner libraryn;
 Spinner floornum;
 Button uploadbtn;
 EditText bdescription;
+Button btnlogout;
 Dataupload dataupload;
 FirebaseAuth firebaseAuth;
 FirebaseDatabase database;
@@ -60,16 +61,18 @@ DatabaseReference reference;
         floornum=findViewById(R.id.floor);
         bdescription=findViewById(R.id.description);
         uploadbtn=findViewById(R.id.upload);
+        btnlogout=findViewById(R.id.button2);
         progressDialog=new ProgressDialog(this);
         uploadbtn.setOnClickListener(this);
+
         dataupload=new Dataupload();
 
     }
 
     private boolean validateInputs(String book, String author, int amount, String description, int shelf) {
-        if (book==null) {
-
+        if (book.isEmpty()) {
             bname.requestFocus();
+            bname.setError("Name required");
             return true;
         }
         if (author.isEmpty()) {
@@ -77,7 +80,7 @@ DatabaseReference reference;
             bauthor.requestFocus();
             return true;
         }
-        if (String.valueOf(amount).isEmpty()) {
+        if (amount==0) {
             bamount.setError("Name required");
             bamount.requestFocus();
             return true;
@@ -102,7 +105,6 @@ DatabaseReference reference;
             if (view instanceof EditText) {
                 ((EditText)view).setText("");
             }
-
             if(view instanceof ViewGroup && (((ViewGroup)view).getChildCount() > 0))
                 clearForm((ViewGroup)view);
         }
@@ -112,21 +114,31 @@ DatabaseReference reference;
     public void onClick(View v) {
         //get data from view
         String book = bname.getText().toString().trim();
-        String author = bauthor.getText().toString().trim();
-        int amount=Integer.valueOf(bamount.getText().toString().trim());
-        String description=bdescription.getText().toString().trim();
-        String floor=floornum.getSelectedItem().toString().trim();
-        int shelf=Integer.valueOf(shelfno.getText().toString().trim());
-        String library=libraryn.getSelectedItem().toString().trim();
-        //getting 1st character
-        String searchKey=Character.valueOf(book.charAt(0)).toString().toUpperCase();
-        //clear text field
+        String author = bauthor.getText().toString();
+        String amnt=bamount.getText().toString();
+        int amount=0;
+        if (!TextUtils.isEmpty(amnt)) {
+
+            amount=Integer.valueOf(amnt);
+        }
+
+        String description=bdescription.getText().toString();
+        String floor=floornum.getSelectedItem().toString();
+        amnt=shelfno.getText().toString();
+        int shelf=0;
+        if (!TextUtils.isEmpty(amnt)){
+            shelf=Integer.parseInt(shelfno.getText().toString());
+        }
+        String library=libraryn.getSelectedItem().toString();
+
 
 
         if ( !validateInputs( book,author,amount, description,shelf)){
             progressDialog.setMessage("UPLOADING DATA TO DATABASE ");
             progressDialog.show();
             CollectionReference dbbooks=db.collection("books");
+            //search key
+            String searchKey=Character.valueOf(book.charAt(0)).toString().toUpperCase();
             Dataupload dataupload=new Dataupload(book,searchKey,
              author,
              library,
@@ -144,12 +156,13 @@ DatabaseReference reference;
 
                 }
             });
-    }
+    }   else {
+            return;
+        }
 }
 
-    public void create_user(View view) {
-        firebaseAuth.signOut();
 
-    startActivity( new Intent(this,Login_activity.class));
+    public void logout(View view) {
+        startActivity( new Intent(this,home.class));
     }
 }

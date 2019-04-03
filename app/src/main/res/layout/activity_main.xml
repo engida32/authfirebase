@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             android:inputType="textPassword" />
-        <!-- Signup Button -->
         <Button
             android:id="@+id/Rbtn_signup"
             android:layout_width="fill_parent"
