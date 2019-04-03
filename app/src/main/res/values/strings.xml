@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">FirebaseAuth</string>
+    <string name="create_a_new_account">create_a_new_account</string>
+    <string-array name="library">
+        <item>central</item>
+        <item>female </item>
+        <item> natural</item>
+        <item>post graduate</item>
+
+    </string-array>
+
+    <string-array name="floor">
+        <item>1st-floor</item>
+        <item>2end-floor </item>
+        <item> 3rd-floor </item>
+        <item>4th-floor</item>
+
+    </string-array>
+</resources>
